@@ -1,0 +1,16 @@
+global:
+  scrape_interval: 15s           # fréquence de collecte des metrics
+  evaluation_interval: 15s
+
+scrape_configs:
+  # Prometheus se scrappe lui-même
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['127.0.0.1:9090']
+
+  # Backend Spring Boot
+  - job_name: 'spring-backend'
+    metrics_path: '/actuator/prometheus'   # endpoint Micrometer Prometheus
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['backend-container:8080']
